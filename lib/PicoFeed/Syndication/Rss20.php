@@ -41,14 +41,16 @@ class Rss20 extends Writer
      * Get the Rss 2.0 document
      *
      * @access public
-     * @param  string   $filename   Optional filename
+     *
+     * @param  string $filename Optional filename
+     *
      * @return string
      */
     public function execute($filename = '')
     {
         $this->checkRequiredProperties($this->required_feed_properties, $this);
 
-        $this->dom = new DomDocument('1.0', 'UTF-8');
+        $this->dom               = new DomDocument('1.0', 'UTF-8');
         $this->dom->formatOutput = true;
 
         // <rss/>
@@ -60,7 +62,7 @@ class Rss20 extends Writer
         $channel = $this->dom->createElement('channel');
 
         // <generator/>
-        $generator = $this->dom->createElement('generator', 'PicoFeed (https://github.com/fguillot/picoFeed)');
+        $generator = $this->dom->createElement('generator', 'PicoFeed (https://github.com/emmanuelroecker/picoFeed)');
         $channel->appendChild($generator);
 
         // <title/>
@@ -70,7 +72,7 @@ class Rss20 extends Writer
 
         // <description/>
         $description = $this->dom->createElement('description');
-        $description->appendChild($this->dom->createTextNode($this->description ?: $this->title));
+        $description->appendChild($this->dom->createTextNode($this->description ? : $this->title));
         $channel->appendChild($description);
 
         // <pubDate/>
@@ -89,7 +91,13 @@ class Rss20 extends Writer
         $channel->appendChild($link);
 
         // <webMaster/>
-        if (isset($this->author)) $this->addAuthor($channel, 'webMaster', $this->author);
+        if (isset($this->author)) {
+            $this->addAuthor($channel, 'webMaster', $this->author);
+        }
+
+        // <copyright/>
+        $generator = $this->dom->createElement('copyright', $this->copyright);
+        $channel->appendChild($generator);
 
         // <item/>
         foreach ($this->items as $item) {
@@ -103,16 +111,17 @@ class Rss20 extends Writer
         if ($filename) {
             $this->dom->save($filename);
         }
-        else {
-            return $this->dom->saveXML();
-        }
+
+        return $this->dom->saveXML();
     }
 
     /**
      * Create item entry
      *
      * @access public
-     * @param  arrray    $item    Item properties
+     *
+     * @param  array $item Item properties
+     *
      * @return DomElement
      */
     public function createEntry(array $item)
@@ -135,8 +144,7 @@ class Rss20 extends Writer
             $guid->setAttribute('isPermaLink', 'false');
             $guid->appendChild($this->dom->createTextNode($item['id']));
             $entry->appendChild($guid);
-        }
-        else {
+        } else {
             $guid = $this->dom->createElement('guid');
             $guid->setAttribute('isPermaLink', 'true');
             $guid->appendChild($this->dom->createTextNode($item['url']));
@@ -172,31 +180,38 @@ class Rss20 extends Writer
      * Add publication date
      *
      * @access public
-     * @param  DomElement   $xml     XML node
-     * @param  integer      $value   Timestamp
+     *
+     * @param  DomElement $xml   XML node
+     * @param  integer    $value Timestamp
      */
     public function addPubDate(DomElement $xml, $value = 0)
     {
-        $xml->appendChild($this->dom->createElement(
-            'pubDate',
-            date(DATE_RFC822, $value ?: time())
-        ));
+        $xml->appendChild(
+            $this->dom->createElement(
+                      'pubDate',
+                          date(DATE_RFC822, $value ? : time())
+            )
+        );
     }
 
     /**
      * Add author
      *
      * @access public
-     * @param  DomElement   $xml     XML node
-     * @param  string       $tag     Tag name
-     * @param  array        $values  Author name and email
+     *
+     * @param  DomElement $xml    XML node
+     * @param  string     $tag    Tag name
+     * @param  array      $values Author name and email
      */
     public function addAuthor(DomElement $xml, $tag, array $values)
     {
         $value = '';
 
-        if (isset($values['email'])) $value .= $values['email'];
-        if ($value && isset($values['name'])) $value .= ' ('.$values['name'].')';
+        //if (isset($values['email'])) $value .= $values['email'];
+        //if ($value && isset($values['name'])) $value .= ' ('.$values['name'].')';
+        if (isset($values['name'])) {
+            $value .= $values['name'];
+        }
 
         if ($value) {
             $author = $this->dom->createElement($tag);

@@ -57,7 +57,7 @@ class Atom extends Writer
 
         // <generator/>
         $generator = $this->dom->createElement('generator', 'PicoFeed');
-        $generator->setAttribute('uri', 'https://github.com/fguillot/picoFeed');
+        $generator->setAttribute('uri', 'https://github.com/emmanuelroecker/picoFeed');
         $feed->appendChild($generator);
 
         // <title/>

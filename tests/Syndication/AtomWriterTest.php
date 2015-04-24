@@ -46,7 +46,7 @@ class AtomWriterTest extends PHPUnit_Framework_TestCase
 
         $expected_output = '<?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <generator uri="https://github.com/fguillot/picoFeed">PicoFeed</generator>
+  <generator uri="https://github.com/emmanuelroecker/picoFeed">PicoFeed</generator>
   <title>My site</title>
   <id>http://boo/</id>
   <updated>'.date(DATE_ATOM).'</updated>
@@ -84,6 +84,10 @@ class AtomWriterTest extends PHPUnit_Framework_TestCase
   </entry>
 </feed>
 ';
+
+        if (strncasecmp(PHP_OS, 'WIN', 3) == 0) {
+            $expected_output = preg_replace('/\r\n?/', "\n", $expected_output);
+        }
 
         $this->assertEquals($expected_output, $generated_output);
     }

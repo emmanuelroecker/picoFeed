@@ -61,6 +61,13 @@ abstract class Writer
     public $title = '';
 
     /**
+     * Feed copyright
+     *
+     * @var string
+     */
+    public $copyright = '';
+
+    /**
      * Feed description
      *
      * @access public
