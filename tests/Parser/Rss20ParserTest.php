@@ -236,6 +236,13 @@ class Rss20ParserTest extends PHPUnit_Framework_TestCase
         $this->assertEquals('image/png', $feed->items[0]->getEnclosureType());
     }
 
+    public function testEncoded()
+    {
+        $parser = new Rss20(file_get_contents('tests/fixtures/lyoncapitale_actualitelyon.xml'));
+        $feed = $parser->execute();
+        $this->assertNotEmpty($feed->items);
+    }
+
     public function testFeedsReportedAsNotWorking()
     {
         $parser = new Rss20(file_get_contents('tests/fixtures/biertaucher.xml'));

@@ -245,6 +245,8 @@ class Curl extends Client
         curl_setopt($ch, CURLOPT_ENCODING, '');
         curl_setopt($ch, CURLOPT_COOKIEJAR, 'php://memory');
         curl_setopt($ch, CURLOPT_COOKIEFILE, 'php://memory');
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 
         // Disable SSLv3 by enforcing TLSv1.x for curl >= 7.34.0 and < 7.39.0.
         // Versions prior to 7.34 and at least when compiled against openssl

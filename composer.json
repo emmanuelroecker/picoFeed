@@ -18,11 +18,19 @@
         "ext-libxml": "*",
         "ext-SimpleXML": "*"
     },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
     "suggest": {
         "ext-curl": "PicoFeed will use cURL if present"
     },
     "autoload": {
         "psr-0": {"PicoFeed": "lib/"}
+    },
+    "autoload-dev": {
+        "psr-0": {
+            "PicoFeed": "tests/"
+        }
     },
     "bin" : [
         "picofeed"

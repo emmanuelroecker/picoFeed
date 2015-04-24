@@ -55,8 +55,10 @@ class XmlParser
      */
     private static function scanInput($input, Closure $callback)
     {
-        $isRunningFpm = substr(php_sapi_name(), 0, 3) === 'fpm';
+        //remove ENTITY tags
+        $input = preg_replace('/<\!ENTITY[^>]+>/im', '', $input);
 
+        $isRunningFpm = substr(php_sapi_name(), 0, 3) === 'fpm';
         if ($isRunningFpm) {
 
             // If running with PHP-FPM and an entity is detected we refuse to parse the feed

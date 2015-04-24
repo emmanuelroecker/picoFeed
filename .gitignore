@@ -1,3 +1,6 @@
 .DS_Store
 vendor/
+.idea/
 *.py
+composer.phar
+composer.lock
