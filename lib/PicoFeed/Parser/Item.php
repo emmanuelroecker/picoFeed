@@ -154,7 +154,9 @@ class Item
             $output .= 'Item::'.$property.' = '.$this->$property.PHP_EOL;
         }
 
-        $output .= 'Item::date = '.$this->date->format(DATE_RFC822).PHP_EOL;
+        if (isset($this->date)) {
+            $output .= 'Item::date = '.$this->date->format(DATE_RFC822).PHP_EOL;
+        }
         $output .= 'Item::isRTL() = '.($this->isRTL() ? 'true' : 'false').PHP_EOL;
         $output .= 'Item::content = '.strlen($this->content).' bytes'.PHP_EOL;
 
